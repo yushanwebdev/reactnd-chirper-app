@@ -26,7 +26,7 @@ Let's start by looking at the Dashboard View.
 ![Dashboard](./img/dashboard.jpg)
 *<center>The "dashboard" view displaying the navigation and tweets.</center>*
 
-**Dashboard View Requirements**
+**Requirements**
 - is located at the home route (`/`)
 - shows tweets sorted from most recently added at the top, to oldest at the bottom
 - each tweet will show:
@@ -36,15 +36,13 @@ Let's start by looking at the Dashboard View.
   - the text of the tweet
   - a reply button - with the number of replies (if higher than 0)
   - a like button - with the number of likes (if higher than 0)
-<br/>
-<br/>
 
 **<span style="text-decoration:underline;">View for the Tweet Page</span>**
 
 ![Tweet](./img/tweet.jpg)
 *<center>The view for a single tweet.</center>*
 
-**Tweet Page View Requirements**
+**Requirements**
 - is located at `/tweet/:id`
 - shows an individual tweet
   - the author
@@ -53,15 +51,13 @@ Let's start by looking at the Dashboard View.
   - a like button - with the number of likes (if higher than 0)
 - has a reply form
 - shows all replies 
-<br/>
-<br/>
 
 **<span style="text-decoration:underline;">View for Creating a New Tweet</span>**
 
 ![New Tweet](./img/new-tweet.jpg)
 *<center>The view for creating a new Tweet.</center>*
 
-**The New Tweet View Requirements**
+**Requirements**
 - is located at `/new`
 - has a textbox for adding a new tweet
 
