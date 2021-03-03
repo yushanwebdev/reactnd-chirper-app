@@ -313,6 +313,69 @@ The New Tweet Component doesn't need to access the `authedUser` piece of state, 
 We are done making our store! While we were making our store, we also determined which components will be upgraded to containers, so our skeleton app is now even more complete.
 <hr/>
 
+## Actions
+
+Let's start from the Dashboard View. Our Dashboard View displays a list of tweets and a menu.
+
+We need to take a look at what is happening in this view. Let's determine what actions the app or the user is performing **on the data** - is the data being set, modified, or deleted?
+
+Remember that in Step 4 of the Planning Stage, we determined that our store will look like this:
+
+![Store](./img/store-v2.png)
+*<center>The Store contains a tweets property, a users property, and an authedUser property.</center>*
+
+When the app loads, the Dashboard View is displayed. The Dashboard Component therefore needs to:
+
+- get the **tweets**
+- get the **users**
+- get the **authedUser**
+
+This data is stored in a database. For this view to load all of the tweets (including their author's avatars), we need to 
+1. get the tweets and users data from the database; 
+2. to pass that data into the component.
+
+**[Q1] Which of the following are best practices for making API requests in React apps? Select all that apply.**
+
+[A1] The `componentDidMount()` lifecycle method.
+
+**[Q2] Which of the following are best practices for making API requests in React/Redux apps?**
+
+[A2] From asynchronous action creators.
+
+Remember how normal Action Creators return actions - simple Javascript objects that then go to all of our reducers? Making an API request is an asynchronous action, so we cannot just send a plain Javascript object to our reducers. Redux middleware can gain access to an action when it's on its way to the reducers. We'll be using the `redux-thunk` middleware in this example. 
+ 
+If the Redux Thunk middleware is enabled (which is done via the `applyMiddleware()` function), then any time your action creator returns a function instead of a Javascript object, it will go to the `redux-thunk` middleware.
+
+Dan Abramov [describes](https://stackoverflow.com/questions/35411423/how-to-dispatch-a-redux-action-with-a-timeout/35415559#35415559) what happens next: 
+
+>“The middleware will call that function with dispatch method itself as the first argument...The action will only reach the reducers once the API request is completed. It will also “swallow” such actions so don't worry about your reducers receiving weird function arguments. Your reducers will only receive plain object actions—either emitted directly, or emitted by the functions as we just described.”
+
+Here's what a thunk action creator looks like:
+
+```javascript
+function handleInitialData () { 
+ return function (dispatch) {}
+}
+```
+Which is equivalent to this in ES6:
+
+```javascript
+function handleInitialData () {
+ return (dispatch) => {}
+}
+```
+Now, we need to give our components access to the data that came in. In other words, we need to populate the store with `tweets` and `users`.
+
+![Store](./img/store-model.png)
+*<center>The Model of Our Store</center>*
+
+The **tweets** slice of the state in the store will be modified by actions that go through the tweets reducer. 
+
+The **users** slice of the state in the store will be modified by actions that go through the users reducer. 
+
+And, similarly, the **authedUser** portion of the state in the store will be modified by actions that go through the authedUser reducer.
+
+
 ## Contributing
 
 Because this is a code-along project and the commits correspond to specific videos in the program.
