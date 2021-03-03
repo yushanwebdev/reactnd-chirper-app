@@ -143,6 +143,51 @@ Thus far, we haven't done anything that's special to Redux; all of the steps abo
 Remember that Redux doesn't care about how our app looks or what components it uses. Instead, it gives a way to manage the state of the application in a predictable way. When we talk about state, we're really talking about data - not just any kind of data inside the app, but data that can change based on the events in the app. 
 
 Let's move on to Step 3, where we'll start thinking about the data in this app.
+<hr/>
+
+### Step 3 - Determine What Events Happen in the App
+
+We need to take a look at *what* is happening in each component. Let's determine what actions the app or the user is performing **on the data**. Is the data being set, modified, or deleted?...then we'll need an action to keep track of that event!
+
+**<span style="text-decoration:underline;">Tweets List Component</span>**
+
+![Tweets List Component](./img/tweet-list-comp.png)
+*<center>The Tweets List Component</center>*
+
+For the Tweets List component, the only information that we see is that we'll have to get a list of all of the tweets. So for this component, we just need to:
+- get the tweets
+
+So the action type for event this will probably be something like `GET_LIST_OF_TWEETS` or `GET_DATA`.
+
+**<span style="text-decoration:underline;">Tweet Component</span>**
+
+![Tweets List Component](./img/tweet-comp.png)
+*<center>The Tweet Component</center>*
+
+- We get a particular tweet from a list of tweets.
+- We get the authedUser (user that is currently logged in) so the user can toggle the likes on each tweet.
+- We get the authedUser so the user can reply to a tweet.
+
+**<span style="text-decoration:underline;">Tweet Container Component</span>**
+
+![Tweet Container Component](./img/tweet-container-comp.png)
+*<center>The Tweet Container Component</center>*
+
+- We get a specific tweet from a list of tweets.
+- We get the replies to a specific tweet from a list of tweets.
+
+**<span style="text-decoration:underline;">New Tweet Component</span>**
+
+![New Tweet Component](./img/new-tweet-comp.png)
+*<center>The New Tweet Component</center>*
+
+- We get the authedUser so the user can create a new tweet.
+- We set the text of the new tweet.
+
+Let's move on to Step 4, where we'll determine which of the data above will live in the store.
+<hr/>
+
+
 
 ## Contributing
 
