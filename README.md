@@ -311,7 +311,6 @@ The New Tweet Component doesn't need to access the `authedUser` piece of state, 
 *<center>The Store contains a tweets property, a users property, and an authedUser property.</center>*
 
 We are done making our store! While we were making our store, we also determined which components will be upgraded to containers, so our skeleton app is now even more complete.
-<hr/>
 
 ## Actions
 
