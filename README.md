@@ -374,6 +374,77 @@ The **users** slice of the state in the store will be modified by actions that g
 
 And, similarly, the **authedUser** portion of the state in the store will be modified by actions that go through the authedUser reducer.
 
+## Reducers
+
+A [Reducer](https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers) describes how an application's state changes. You’ll often see the [Object Spread Operator](https://redux.js.org/recipes/using-object-spread-operator) (`...`) used inside of a reducer because a reducer **must return a new object** instead of mutating the old state.
+
+If you want to know why Redux requires immutability, check out the [Immutable Data Section of the docs](https://redux.js.org/faq/immutable-data#why-is-immutability-required).
+
+Reducers have the following signature:
+
+```javascript
+(previousState, action) => newState
+```
+In our app, the `tweets` reducer will determine how the `tweets` part of the state changes. The `users` reducer will determine how the `users` part of the state changes, and so forth:
+
+![Store](./img/store-model.png)
+*<center>This is how our state will be modified.</center>*
+
+## Initializing State
+
+There are 2 ways to initialize the state inside the store:
+
+- You can pass the initial state (or a part of the initial state) as `preloadedState` to the `createStore` function.
+
+For Example:
+```javascript
+const store = createStore (
+  rootReducer,
+  { tweets: {} }
+);
+```
+- You can include a default state parameter as the first argument inside a particular reducer function.
+
+For example: 
+```javascript
+function tweets (state = {}, action) {
+}
+```
+To see how these approaches interact, check out the Initializing State section of the documentation.
+
+To see how these approaches interact, check out the [Initializing State section of the documentation](https://redux.js.org/recipes/structuring-reducers/initializing-state).
+
+In our app, we initialized each slice of the store by setting a default `state` value as the first parameter inside each reducer function.
+
+At this point, our store looks like this:
+
+![Store](./img/initialized-state.png)
+*<center>Initialized State Inside the Store</center>*
+
+The **tweets** slice of the state in the store has been initialized to an empty object. The **users** slice of the state in the store has been initialized to an empty object. And, the **authedUser** slice of the state in the store has been initialized to null.
+
+So, we have a `tweets` to manage the tweets slice of the state, a `users` reducer to manage the users slice of the state, and an `authedUser` reducer to manage the *authedUser* portion of the state. Each of these reducers will manage just its own part of the state. 
+
+We will combine all of these reducers into one main, root reducer, which will combine the results of calling the `tweets` reducer, `users` reducer, and `authedUser` reducer into a single state object. Remember, we need to do this because the `createStore` function only accepts a single reducer.
+
+```javascript
+combineReducers({
+  authedUser: authedUser,
+  tweets: tweets,
+  users: users
+});
+```
+Or using ES6's [property shorthand](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer), it can just be:
+```javascript
+combineReducers({
+  authedUser,
+  tweets,
+  users
+});
+```
+Redux applications have a single store. We have to pass the Root Reducer to our `createStore()` function in order for the store to know what pieces of state it should have.
+
+The point of creating a store is to allow components to be able to access it without having to pass the data down through multiple components. The `Provider` component (which comes from the `react-redux` package) makes it possible for all components to access the store via the `connect()` function.
 
 ## Contributing
 
