@@ -6,7 +6,7 @@ class Dashboard extends Component {
         return(
             <div>
                 {this.props.tweetIds.map((id) => (
-                    <p>TWEET ID: {id}</p>
+                    <p key={id}>TWEET ID: {id}</p>
                 ))}
             </div>
         )
