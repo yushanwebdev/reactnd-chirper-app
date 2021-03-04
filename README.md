@@ -520,6 +520,43 @@ export default applyMiddleware(
 
 Reason - The middleware is called in the order it is listed in this function. The thunk action creators we're using to load initial date, save tweets, and toggle tweets are functions. So if they go to the logger middleware before going to the thunk middleware (which takes the functions and executes them, thereby obtaining `actions` to pass to the reducers), we're going to be logging function, not the actual actions.
 
+## Initializing the App's Data
+
+We have previously determined that we need to get the `users` and `tweets` data from our database and send that data to our store, along with the `authedUser` data, when the home page loads.
+
+We have also created a thunk action creator that gets the data from the database and then dispatches actions to the store to set the three pieces of state we have in our store:
+- users
+- tweets
+- authedUser
+
+Here's what the `handleInitialData()` thunk action creator looks like:
+
+```javascript
+function handleInitialData () {
+  return (dispatch) => {
+    return getInitialData()
+      .then(({ users, tweets }) => {
+        dispatch(receiveUsers(users));
+        dispatch(receiveTweets(tweets));
+        dispatch(setAuthedUser(AUTHED_ID));
+      });
+  };
+}
+```
+Now, the question is where do we dispatch this action creator?
+
+**[Q] Think about this for a moment - Will our app work as desired if we dispatch the `handleInitialData()` action creator inside of the Dashboard Component?**
+
+[A] No.
+
+Reason - It is true that the root route will load correctly, but if we go to a different route -- tweets/:id, for example -- our store will still be empty and the tweet will not be found.
+
+When we walked through the architecture of our app, we saw that the App Component will contain every other component. If we load the initial data (by dispatching the handleInitialData() action creator) from the App component, then no matter which route our users goes to, they’ll see all of the correct data.
+
+[Initial Data](https://www.youtube.com/watch?v=ydXVJmVqebQ&feature=emb_logo)
+
+Using the `connect()` function upgrades a component to a container. Containers can read state from the store and dispatch actions. Read more about our ability to customize our container’s relationship with the store in the `react-redux` [API documentation](https://react-redux.js.org/). Make sure to go through the excellent examples that are provided in the linked documentation to gain a deeper understanding of Redux.
+
 ## Contributing
 
 Because this is a code-along project and the commits correspond to specific videos in the program.
