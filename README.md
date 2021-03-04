@@ -374,6 +374,10 @@ The **users** slice of the state in the store will be modified by actions that g
 
 And, similarly, the **authedUser** portion of the state in the store will be modified by actions that go through the authedUser reducer.
 
+[First Actions](https://www.youtube.com/watch?v=Px3vpZBHhHI&feature=emb_logo)
+
+[Authorized User Action](https://www.youtube.com/watch?v=-cqWNcFKB5E&feature=emb_logo)
+
 ## Reducers
 
 A [Reducer](https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers) describes how an application's state changes. You’ll often see the [Object Spread Operator](https://redux.js.org/recipes/using-object-spread-operator) (`...`) used inside of a reducer because a reducer **must return a new object** instead of mutating the old state.
@@ -414,6 +418,8 @@ To see how these approaches interact, check out the Initializing State section o
 
 To see how these approaches interact, check out the [Initializing State section of the documentation](https://redux.js.org/recipes/structuring-reducers/initializing-state).
 
+[Reducers](https://www.youtube.com/watch?v=QnntUz8r9lo&feature=emb_logo)
+
 In our app, we initialized each slice of the store by setting a default `state` value as the first parameter inside each reducer function.
 
 At this point, our store looks like this:
@@ -442,9 +448,77 @@ combineReducers({
   users
 });
 ```
+Now that all of our reducers are set up, we need to actually create the store and provide it to our application. To actually use any of the code that we've written up to this point, we need to install the `redux` package. Then, to provide the store to our application, we'll also need to install the `react-redux` package.
+
+[Creating The Store](https://www.youtube.com/watch?v=Ac3-sWH49XY&feature=emb_logo)
+
 Redux applications have a single store. We have to pass the Root Reducer to our `createStore()` function in order for the store to know what pieces of state it should have.
 
 The point of creating a store is to allow components to be able to access it without having to pass the data down through multiple components. The `Provider` component (which comes from the `react-redux` package) makes it possible for all components to access the store via the `connect()` function.
+
+## Middleware
+
+Our last bit of setup involves setting up the app's Middleware functions. Just like in the previous Todos application, we're going to create a logger middleware that will help us view the actions and state of the store as we interact with our application. Also, since the `handleInitialData()` action creator in src/actions/shared.js returns a function, we'll need to install the `react-thunk` package:
+
+In the next video, we’ll hook up our redux-thunk middleware, so our thunk action creators actually work. We’ll also put in logger middleware to make debugging easier. Do you remember how to build custom middleware?
+
+All middleware follows this currying pattern:
+
+```javascript
+const logger = (store) => (next) => (action) => {
+ // ...
+}
+```
+Use the [Babel Repl](https://babeljs.io/repl/#?browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=Q&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=true&fileSize=false&timeTravel=false&sourceType=module&lineWrap=false&presets=&prettier=false&targets=&version=6.26.0&externalPlugins=) if you want to see this code in ES5.
+
+The variable `logger` is assigned to a function that takes the `store` as its argument. That function returns another function, which is passed `next` (which is the next middleware in line or the dispatch function). That other function return another function which is passed an `action`. Once inside that third function, we have access to `store`, `next`, and `action`.
+
+It’s important to note that the value of the `next` parameter will be determined by the `applyMiddleware` function. Why? All middleware will be called in the order it is listed in that function. In our case, the `next` will be `dispatch` because `logger` is the last middleware listed in that function.
+
+[Project Middleware](https://www.youtube.com/watch?v=HXYqXy4uflw&feature=emb_logo)
+
+Here’s our middleware wiring: 
+```javascript
+export default applyMiddleware(
+  thunk,
+  logger
+);
+```
+Each thing returned by an action creator - be it an action or a function - will go through our thunk middleware. This is the source code for the thunk middleware:
+```javascript
+function createThunkMiddleware(extraArgument) {
+  return ({ dispatch, getState }) => next => action => {
+    if (typeof action === 'function') {
+      return action(dispatch, getState, extraArgument);
+    }
+    return next(action);
+  };
+}
+
+const thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;
+
+export default thunk;
+```
+
+If the thunk middleware sees an action, that action will be sent to the next middleware in line - the logger middleware. If it sees a function, the `thunk` middleware will call that function. That function can contain side effects - such as API calls - and dispatch actions, simple Javascript objects. These dispatched actions will again go to all of the middleware. The thunk middleware will see that it’s a simple action and pass the action on to the next middleware, the logger.
+
+**[Q] Would these two pieces of code make the logger produce the same output in the console?**
+```javascript
+export default applyMiddleware(
+  logger,
+  thunk
+);
+```
+```javascript
+export default applyMiddleware(
+  thunk,
+  logger
+);
+```
+[A] No.
+
+Reason - The middleware is called in the order it is listed in this function. The thunk action creators we're using to load initial date, save tweets, and toggle tweets are functions. So if they go to the logger middleware before going to the thunk middleware (which takes the functions and executes them, thereby obtaining `actions` to pass to the reducers), we're going to be logging function, not the actual actions.
 
 ## Contributing
 
