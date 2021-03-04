@@ -5,7 +5,9 @@ class Dashboard extends Component {
     render() {
         return(
             <div>
-                Dashboard
+                {this.props.tweetIds.map((id) => (
+                    <p>TWEET ID: {id}</p>
+                ))}
             </div>
         )
     }
@@ -13,7 +15,7 @@ class Dashboard extends Component {
 
 function mapStateToProps({ tweets }) {
     return {
-        tweetsIds: Object.keys(tweets) 
+        tweetIds: Object.keys(tweets) 
             .sort((a , b) => tweets[b].timestamp - tweets[a].timestamp)
     }
 }
