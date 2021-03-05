@@ -4,6 +4,7 @@ import { formatTweet } from '../utils/helpers';
 
 class Tweet extends Component {
     render() {
+        const { tweet } = this.props;
         if(tweet === null) {
             return <p>This Tweet doesn't exist</p>;
         } 
