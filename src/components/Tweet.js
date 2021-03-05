@@ -4,6 +4,7 @@ import { formatTweet } from '../utils/helpers';
 
 class Tweet extends Component {
     render() {
+        console.log(this.props);
         return(
             <div>
                 Tweet
