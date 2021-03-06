@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { formatDate, formatTweet } from '../utils/helpers';
 import { TiArrowBackOutline, TiHeartOutline, TiHeartFullOutline } from 'react-icons/ti/index';
 import { handleToggleTweet } from '../actions/tweets';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 class Tweet extends Component {
     toParent = (e, id) => {
         e.preventDefault();
-        // todo: Redirect to parent Tweet.
+        this.props.history.push(`/tweet/${id}`);
     }
 
     handleLike = (e) => {
@@ -78,4 +78,5 @@ function mapStateToProps({ authedUser, users, tweets }, { id }) {
     }
 }
 
-export default connect(mapStateToProps)(Tweet);
+// We're not passed this.props.history to the component. So that we import the withRouter higher order component
+export default withRouter(connect(mapStateToProps)(Tweet));
