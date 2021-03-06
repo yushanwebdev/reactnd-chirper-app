@@ -793,6 +793,10 @@ Carefully go over the [Immutable Update Patterns](https://redux.js.org/recipes/s
 
 Remember, that [doing a shallow copy of the top level is not sufficient - [nestedState objects] should be copied as well](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns).
 
+## Using React Router
+
+We're pretty much finished with everything in our app! Our final step is to get the app to handling routing. We'll do this with React Router.
+
 ## Contributing
 
 Because this is a code-along project and the commits correspond to specific videos in the program.
