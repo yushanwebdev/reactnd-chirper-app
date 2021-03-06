@@ -374,9 +374,9 @@ The **users** slice of the state in the store will be modified by actions that g
 
 And, similarly, the **authedUser** portion of the state in the store will be modified by actions that go through the authedUser reducer.
 
-[First Actions](https://www.youtube.com/watch?v=Px3vpZBHhHI)
+[](https://www.youtube.com/watch?v=Px3vpZBHhHI)
 
-[Authorized User Action](https://www.youtube.com/watch?v=-cqWNcFKB5E)
+[](https://www.youtube.com/watch?v=-cqWNcFKB5E)
 
 ## Reducers
 
@@ -418,7 +418,7 @@ To see how these approaches interact, check out the Initializing State section o
 
 To see how these approaches interact, check out the [Initializing State section of the documentation](https://redux.js.org/recipes/structuring-reducers/initializing-state).
 
-[Reducers](https://www.youtube.com/watch?v=QnntUz8r9lo)
+[](https://www.youtube.com/watch?v=QnntUz8r9lo)
 
 In our app, we initialized each slice of the store by setting a default `state` value as the first parameter inside each reducer function.
 
@@ -450,7 +450,7 @@ combineReducers({
 ```
 Now that all of our reducers are set up, we need to actually create the store and provide it to our application. To actually use any of the code that we've written up to this point, we need to install the `redux` package. Then, to provide the store to our application, we'll also need to install the `react-redux` package.
 
-[Creating The Store](https://www.youtube.com/watch?v=Ac3-sWH49XY)
+[](https://www.youtube.com/watch?v=Ac3-sWH49XY)
 
 Redux applications have a single store. We have to pass the Root Reducer to our `createStore()` function in order for the store to know what pieces of state it should have.
 
@@ -475,7 +475,7 @@ The variable `logger` is assigned to a function that takes the `store` as its ar
 
 It’s important to note that the value of the `next` parameter will be determined by the `applyMiddleware` function. Why? All middleware will be called in the order it is listed in that function. In our case, the `next` will be `dispatch` because `logger` is the last middleware listed in that function.
 
-[Project Middleware](https://www.youtube.com/watch?v=HXYqXy4uflw)
+[](https://www.youtube.com/watch?v=HXYqXy4uflw)
 
 Here’s our middleware wiring: 
 ```javascript
@@ -553,7 +553,7 @@ Reason - It is true that the root route will load correctly, but if we go to a d
 
 When we walked through the architecture of our app, we saw that the App Component will contain every other component. If we load the initial data (by dispatching the handleInitialData() action creator) from the App component, then no matter which route our users goes to, they’ll see all of the correct data.
 
-[Initial Data](https://www.youtube.com/watch?v=ydXVJmVqebQ)
+[](https://www.youtube.com/watch?v=ydXVJmVqebQ)
 
 Using the `connect()` function upgrades a component to a container. Containers can read state from the store and dispatch actions. Read more about our ability to customize our container’s relationship with the store in the `react-redux` [API documentation](https://react-redux.js.org/). Make sure to go through the excellent examples that are provided in the linked documentation to gain a deeper understanding of Redux.
 
@@ -613,7 +613,7 @@ The important things to note are that:
 - **tweets** is the slice of the state that this component cares about
 - **tweetIds** will show up as a property on this container
 
-[Dashboard](https://www.youtube.com/watch?v=xjqf3vm3KjY)
+[](https://www.youtube.com/watch?v=xjqf3vm3KjY)
 
 ## Tweet Component
 
@@ -624,7 +624,7 @@ In Step 4 of the Planning Stage, we saw that this component will need access to 
 
 Let's connect this component to the store!
 
-[Tweet State](https://www.youtube.com/watch?v=Q6sAKQaQTJ8)
+[](https://www.youtube.com/watch?v=Q6sAKQaQTJ8)
 
 Notice how we're passing an id prop along to the Tweet component:
 
@@ -659,7 +659,7 @@ We're destructuring both arguments. From the store, we're extracting:
 
 Then we're getting the `id` from the props passed to the Tweets Component. We need both of these pieces of data (coming from the store's state and coming from the component) so that we can determine which Tweet should be displayed by Tweet Component.
 
-[Handling A Parent Tweet](https://www.youtube.com/watch?v=fNHUigCJpkY)
+[](https://www.youtube.com/watch?v=fNHUigCJpkY)
 
 So this is what the final state of the Tweet Component's `mapStateToProps` function looks like:
 
@@ -679,9 +679,9 @@ function mapStateToProps ({authedUser, users, tweets}, { id }) {
 
 Now that we're getting all of the data we need from the store, we can actually build the UI for the Tweet Component. 
 
-[Tweet UI](https://www.youtube.com/watch?v=es890SLMDqM)
+[](https://www.youtube.com/watch?v=es890SLMDqM)
 
-[Loading](https://www.youtube.com/watch?v=FvmgIlJPjQ8)
+[](https://www.youtube.com/watch?v=FvmgIlJPjQ8)
 
 **Further Research:**
 - [The Perils of Using a Common Redux Anti-Patterns](https://itnext.io/the-perils-of-using-a-common-redux-anti-pattern-344d778e59da)
@@ -715,7 +715,7 @@ Our code only updates the UI once we receive confirmation that the backend updat
 
 A common approach to UI updates is Optimistic Updating; updating the UI before the action gets recorded on the backend so it seems more performant. We’ll see that approach in the video below as we build out our Tweet Actions.
 
-[Like Tweet Actions](https://www.youtube.com/watch?v=2YTZZJTs4aw)
+[](https://www.youtube.com/watch?v=2YTZZJTs4aw)
 
 ### Like Tweet Reducer
 
@@ -728,19 +728,19 @@ When liking a tweet (or unliking a tweet), the state for that specific tweet nee
 
 So we need to update the reducer to handle these changes.
 
-[Like Tweet Reducer](https://www.youtube.com/watch?v=bHklEREK6gw)
+[](https://www.youtube.com/watch?v=bHklEREK6gw)
 
-[Like Tweet Component](https://www.youtube.com/watch?v=hPvYle9FdBk)
+[](https://www.youtube.com/watch?v=hPvYle9FdBk)
 
 ## New Tweet Component
 
-[New Tweet UI](https://www.youtube.com/watch?v=aEAUnJhyqCw)
+[](https://www.youtube.com/watch?v=aEAUnJhyqCw)
 
 ### Adding a New Tweet
 
 Let’s now work on the logic of adding a new tweet. Once the user submits a new tweet, it should show up in the list of all of tweets and be added to our database. Since this tweet will be used by more than one component, we know that we want to make sure the store is modified to reflect the updated list of tweets. Recording tweets in a database is an asynchronous operation, so we can use Redux Thunk to issue the API request.
 
-[New Tweet Logic Actions](https://www.youtube.com/watch?v=MyjJlyv2H0I)
+[](https://www.youtube.com/watch?v=MyjJlyv2H0I)
 
 We know that our store looks like this:
 
@@ -769,9 +769,9 @@ In this reducer, we'll
 1. concatenate the new tweet to the list of the already-existing tweets. Remember that the [object spread operator](https://redux.js.org/recipes/using-object-spread-operator) offers us the most concise way of doing that;
 2. modify the `replies` property of the tweet the new tweet is replying to.
 
-[New Tweet Logic Reducer](https://www.youtube.com/watch?v=YdmgH1-U5jM)
+[](https://www.youtube.com/watch?v=YdmgH1-U5jM)
 
-[New Tweet Logic Component](https://www.youtube.com/watch?v=hWGIn12dGOM)
+[](https://www.youtube.com/watch?v=hWGIn12dGOM)
 
 In Step 2 of the Planning Stage, we determined that the New Tweet Component will show up inside of the App Component when the user goes to the `/new` page and that it will be inside of the Tweet Page Component when the user is on the `/tweet/:id` page. 
 
@@ -785,7 +785,7 @@ What happens when someone clicks “Submit” to add a new tweet? The New Tweet 
 - Anytime the store is updated.
 - Whenever the component receives new props.
 
-[Tweet Page](https://www.youtube.com/watch?v=4g9l8T2MLt4)
+[](https://www.youtube.com/watch?v=4g9l8T2MLt4)
 
 ### Further Learning
 
