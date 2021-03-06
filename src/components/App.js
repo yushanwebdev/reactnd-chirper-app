@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { handleInitialData } from '../actions/shared';
 import Dashboard from './Dashboard';
@@ -16,17 +16,19 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="container">
+        <Fragment>
           <LoadingBar />
-          <Nav />
-          {this.props.loading === true
-            ? null
-            : <div>
+          <div className="container">
+            <Nav />
+            {this.props.loading === true
+              ? null
+              : <div>
                 <Route path="/" exact component={Dashboard} />
                 <Route path="/tweet/:id" component={TweetPage} />
                 <Route path="/new" component={NewTweet} />
               </div>}
-        </div>
+          </div>
+        </Fragment>
       </Router>
     )
   }
