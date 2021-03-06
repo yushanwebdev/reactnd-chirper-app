@@ -1,8 +1,7 @@
 # Chirper Project
 
-This repo is a code-along with the first project in the [React Nanodegree program](https://www.udacity.com/course/react-nanodegree--nd019).
+The project we'll be building is called “Chirper”. Building this simple Twitter clone will help us to practice improving the predictability of an application's state; establishing strict rules for getting, listening, and updating the store; and identifying what state should live inside of Redux and what state should live inside of React components. 
 
-Most of the commits in this repository correspond to videos in the program.
 
 ## Project Setup
 
