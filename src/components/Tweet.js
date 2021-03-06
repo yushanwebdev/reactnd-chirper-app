@@ -12,7 +12,7 @@ class Tweet extends Component {
 
     handleLike = (e) => {
         e.preventDefault();
-        
+
         const { dispatch, tweet, authedUser } = this.props;
 
         dispatch(handleToggleTweet({
@@ -33,36 +33,34 @@ class Tweet extends Component {
         } = tweet;
 
         return (
-            <li>
-                <div className="tweet">
-                    <img
-                        src={avatar}
-                        alt={`Avatar of ${name}`}
-                        className="avatar" />
-                    <div className="tweet-info">
-                        <div>
-                            <span>{name}</span>
-                            <div>{formatDate(timestamp)}</div>
-                            {parent && (
-                                <button className="replying-to" onClick={(e) => this.toParent(e, parent.id)}>
-                                    Replying to @{parent.author}
-                                </button>
-                            )}
-                            <p>{text}</p>
-                        </div>
-                        <div className="tweet-icons">
-                            <TiArrowBackOutline className="tweet-icon" />
-                            <span>{replies !== 0 && replies}</span>
-                            <button className="heart-button" onClick={this.handleLike}>
-                                {hasLiked === true
-                                    ? <TiHeartFullOutline color="#e0245e" className="tweet-icon" />
-                                    : <TiHeartOutline className="tweet-icon" />}
+            <div className="tweet">
+                <img
+                    src={avatar}
+                    alt={`Avatar of ${name}`}
+                    className="avatar" />
+                <div className="tweet-info">
+                    <div>
+                        <span>{name}</span>
+                        <div>{formatDate(timestamp)}</div>
+                        {parent && (
+                            <button className="replying-to" onClick={(e) => this.toParent(e, parent.id)}>
+                                Replying to @{parent.author}
                             </button>
-                            <span>{likes !== 0 && likes}</span>
-                        </div>
+                        )}
+                        <p>{text}</p>
+                    </div>
+                    <div className="tweet-icons">
+                        <TiArrowBackOutline className="tweet-icon" />
+                        <span>{replies !== 0 && replies}</span>
+                        <button className="heart-button" onClick={this.handleLike}>
+                            {hasLiked === true
+                                ? <TiHeartFullOutline color="#e0245e" className="tweet-icon" />
+                                : <TiHeartOutline className="tweet-icon" />}
+                        </button>
+                        <span>{likes !== 0 && likes}</span>
                     </div>
                 </div>
-            </li>
+            </div>
         )
     }
 }
