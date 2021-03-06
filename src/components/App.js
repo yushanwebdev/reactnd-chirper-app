@@ -6,7 +6,7 @@ import LoadingBar from 'react-redux-loading';
 import NewTweet from './NewTweet';
 import TweetPage from './TweetPage';
 import Nav from './Nav';
-import { Route, Router } from 'react-router';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 class App extends Component {
   componentDidMount() {
