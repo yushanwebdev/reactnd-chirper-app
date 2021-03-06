@@ -717,7 +717,7 @@ A common approach to UI updates is Optimistic Updating; updating the UI before t
 
 [Like Tweet Actions](https://www.youtube.com/watch?v=2YTZZJTs4aw)
 
-## Like Tweet Reducer
+### Like Tweet Reducer
 
 Remember that the `tweets` reducer will determine how the `tweets` part of the state changes:
 
@@ -731,6 +731,67 @@ So we need to update the reducer to handle these changes.
 [Like Tweet Reducer](https://www.youtube.com/watch?v=bHklEREK6gw)
 
 [Like Tweet Component](https://www.youtube.com/watch?v=hPvYle9FdBk)
+
+## New Tweet Component
+
+[New Tweet UI](https://www.youtube.com/watch?v=aEAUnJhyqCw)
+
+### Adding a New Tweet
+
+Let’s now work on the logic of adding a new tweet. Once the user submits a new tweet, it should show up in the list of all of tweets and be added to our database. Since this tweet will be used by more than one component, we know that we want to make sure the store is modified to reflect the updated list of tweets. Recording tweets in a database is an asynchronous operation, so we can use Redux Thunk to issue the API request.
+
+[New Tweet Logic Actions](https://www.youtube.com/watch?v=MyjJlyv2H0I)
+
+We know that our store looks like this:
+
+```javascript
+{
+  tweets: {
+    tweetId: { tweetId, authorId, timestamp, text, likes, replies, replyingTo}, 
+    tweetId: { tweetId, authorId, timestamp, text, likes, replies, replyingTo}
+  },
+  users: {
+    userId: {userId, userName, avatar, tweets array},
+    userId: {userId, userName, avatar, tweets array}
+  },
+  authedUser: userId
+}
+```
+Let’s start working on the New Tweet Reducer. How will we be modifying the state to reflect the new tweet?
+
+This is going to be a two-part process:
+
+1. the new tweet needs to be added to the list of tweets
+2. an already existing tweet needs to be modified if the new tweet is a response to another tweet
+
+In this reducer, we'll
+
+1. concatenate the new tweet to the list of the already-existing tweets. Remember that the [object spread operator](https://redux.js.org/recipes/using-object-spread-operator) offers us the most concise way of doing that;
+2. modify the `replies` property of the tweet the new tweet is replying to.
+
+[New Tweet Logic Reducer](https://www.youtube.com/watch?v=YdmgH1-U5jM)
+
+[New Tweet Logic Component](https://www.youtube.com/watch?v=hWGIn12dGOM)
+
+In Step 2 of the Planning Stage, we determined that the New Tweet Component will show up inside of the App Component when the user goes to the `/new` page and that it will be inside of the Tweet Page Component when the user is on the `/tweet/:id` page. 
+
+When the user is at the `/new` route, the new tweet will not be attached to another tweet. When the user is at the `tweet/:id` route, the new tweet will be attached to the already-displayed tweet. Notice that the route already contains the parent tweet’s `id`. We can just pass the `id` from the route to the New Tweet Component whenever we’re creating a reply tweet.
+
+What happens when someone clicks “Submit” to add a new tweet? The New Tweet Component will need to communicate with our store. We communicate with the store by dispatching actions. `dispatch` is a method on the store. That means that the New Tweet Component needs to be `connect()`ed to Redux. Once a component is connected to the store, it will have `dispatch` on its props.
+
+**[Q] When will the mapStateToProps function be called?**
+
+[A] 
+- Anytime the store is updated.
+- Whenever the component receives new props.
+
+[Tweet Page](https://www.youtube.com/watch?v=4g9l8T2MLt4)
+
+### Further Learning
+
+Carefully go over the [Immutable Update Patterns](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns) and [Designing the State Shape](https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#designing-the-state-shape) pages in the Redux documentation.
+
+Remember, that [doing a shallow copy of the top level is not sufficient - [nestedState objects] should be copied as well](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns).
 
 ## Contributing
 
