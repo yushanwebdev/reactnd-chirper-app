@@ -374,9 +374,9 @@ The **users** slice of the state in the store will be modified by actions that g
 
 And, similarly, the **authedUser** portion of the state in the store will be modified by actions that go through the authedUser reducer.
 
-[First Actions](https://www.youtube.com/watch?v=Px3vpZBHhHI&feature=emb_logo)
+[First Actions](https://www.youtube.com/watch?v=Px3vpZBHhHI)
 
-[Authorized User Action](https://www.youtube.com/watch?v=-cqWNcFKB5E&feature=emb_logo)
+[Authorized User Action](https://www.youtube.com/watch?v=-cqWNcFKB5E)
 
 ## Reducers
 
@@ -418,7 +418,7 @@ To see how these approaches interact, check out the Initializing State section o
 
 To see how these approaches interact, check out the [Initializing State section of the documentation](https://redux.js.org/recipes/structuring-reducers/initializing-state).
 
-[Reducers](https://www.youtube.com/watch?v=QnntUz8r9lo&feature=emb_logo)
+[Reducers](https://www.youtube.com/watch?v=QnntUz8r9lo)
 
 In our app, we initialized each slice of the store by setting a default `state` value as the first parameter inside each reducer function.
 
@@ -450,7 +450,7 @@ combineReducers({
 ```
 Now that all of our reducers are set up, we need to actually create the store and provide it to our application. To actually use any of the code that we've written up to this point, we need to install the `redux` package. Then, to provide the store to our application, we'll also need to install the `react-redux` package.
 
-[Creating The Store](https://www.youtube.com/watch?v=Ac3-sWH49XY&feature=emb_logo)
+[Creating The Store](https://www.youtube.com/watch?v=Ac3-sWH49XY)
 
 Redux applications have a single store. We have to pass the Root Reducer to our `createStore()` function in order for the store to know what pieces of state it should have.
 
@@ -475,7 +475,7 @@ The variable `logger` is assigned to a function that takes the `store` as its ar
 
 It’s important to note that the value of the `next` parameter will be determined by the `applyMiddleware` function. Why? All middleware will be called in the order it is listed in that function. In our case, the `next` will be `dispatch` because `logger` is the last middleware listed in that function.
 
-[Project Middleware](https://www.youtube.com/watch?v=HXYqXy4uflw&feature=emb_logo)
+[Project Middleware](https://www.youtube.com/watch?v=HXYqXy4uflw)
 
 Here’s our middleware wiring: 
 ```javascript
@@ -553,7 +553,7 @@ Reason - It is true that the root route will load correctly, but if we go to a d
 
 When we walked through the architecture of our app, we saw that the App Component will contain every other component. If we load the initial data (by dispatching the handleInitialData() action creator) from the App component, then no matter which route our users goes to, they’ll see all of the correct data.
 
-[Initial Data](https://www.youtube.com/watch?v=ydXVJmVqebQ&feature=emb_logo)
+[Initial Data](https://www.youtube.com/watch?v=ydXVJmVqebQ)
 
 Using the `connect()` function upgrades a component to a container. Containers can read state from the store and dispatch actions. Read more about our ability to customize our container’s relationship with the store in the `react-redux` [API documentation](https://react-redux.js.org/). Make sure to go through the excellent examples that are provided in the linked documentation to gain a deeper understanding of Redux.
 
@@ -613,7 +613,7 @@ The important things to note are that:
 - **tweets** is the slice of the state that this component cares about
 - **tweetIds** will show up as a property on this container
 
-[Dashboard](https://www.youtube.com/watch?v=xjqf3vm3KjY&feature=emb_logo)
+[Dashboard](https://www.youtube.com/watch?v=xjqf3vm3KjY)
 
 ## Tweet Component
 
@@ -624,7 +624,7 @@ In Step 4 of the Planning Stage, we saw that this component will need access to 
 
 Let's connect this component to the store!
 
-[Tweet State](https://www.youtube.com/watch?v=Q6sAKQaQTJ8&feature=emb_logo)
+[Tweet State](https://www.youtube.com/watch?v=Q6sAKQaQTJ8)
 
 Notice how we're passing an id prop along to the Tweet component:
 
@@ -679,12 +679,58 @@ function mapStateToProps ({authedUser, users, tweets}, { id }) {
 
 Now that we're getting all of the data we need from the store, we can actually build the UI for the Tweet Component. 
 
-[Tweet UI](https://www.youtube.com/watch?v=es890SLMDqM&t=5s)
+[Tweet UI](https://www.youtube.com/watch?v=es890SLMDqM)
 
-[Loading](https://www.youtube.com/watch?v=FvmgIlJPjQ8&t=202s)
+[Loading](https://www.youtube.com/watch?v=FvmgIlJPjQ8)
 
 **Further Research:**
 - [The Perils of Using a Common Redux Anti-Patterns](https://itnext.io/the-perils-of-using-a-common-redux-anti-pattern-344d778e59da)
+
+## Liking a Tweet
+
+In the Planning stage, we figured out that we needed to give the Tweet Component access to the `authedUser` data for the tweet to correctly show whether the logged in user liked the tweet or not and for the user to reply to tweets. We also figured out that once the user likes or un-likes a tweet, that information needs to be reflected in the store for other components show the correct data.
+
+We’ll need to write an asynchronous action creator since we need to record whether the logged in user liked a tweet not only in the store but also in our database. [Redux thunks](https://github.com/reduxjs/redux-thunk) to the rescue! 
+
+![Store](./img/thunk-action-creator.png)
+*<center>A Thunk Action Creator returns a function that will be passed `store.dispatch` and `store.getState` when it's invoked.</center>*
+
+We can write this as our thunk action creator:
+
+```javascript
+function handleToggleTweet (info) {
+  return (dispatch) => {
+    saveLikeToggle(info)
+    .then(() => {
+      dispatch(toggleTweet(info));
+      })
+    .catch((e) => {
+      console.warn('Error in handleToggleTweet: ', e);
+      alert('There was an error liking the tweet. Try again.');
+    });
+  }
+}
+```
+Our code only updates the UI once we receive confirmation that the backend update was successful. This can make the app seem laggy. 
+
+A common approach to UI updates is Optimistic Updating; updating the UI before the action gets recorded on the backend so it seems more performant. We’ll see that approach in the video below as we build out our Tweet Actions.
+
+[Like Tweet Actions](https://www.youtube.com/watch?v=2YTZZJTs4aw)
+
+## Like Tweet Reducer
+
+Remember that the `tweets` reducer will determine how the `tweets` part of the state changes:
+
+![Store](./img/store.png)
+*<center>Each reducer modifies its own slice of the state.</center>*
+
+When liking a tweet (or unliking a tweet), the state for that specific tweet needs to change - either the tweet's `like` property (which, if you remember, is an array and will contain the names of the users that have liked the tweet) will need to change to include the user that clicked it (if they're liking the tweet) or the user's name will need to be removed from the array (if they're unliking the tweet).
+
+So we need to update the reducer to handle these changes.
+
+[Like Tweet Reducer](https://www.youtube.com/watch?v=bHklEREK6gw)
+
+[Like Tweet Component](https://www.youtube.com/watch?v=hPvYle9FdBk)
 
 ## Contributing
 
